@@ -2,17 +2,18 @@
 
 <%= render('shared/timeout_prompt') %>
 
-<div class="Grid">
-  <div class="Grid-2-3">
+<div class="grid-row">
+  <div class="column-two-thirds">
     <%= form_for(@steps.fetch(:visitors_step),
                  url: booking_requests_path,
+                 builder: GovukElementsFormBuilder::FormBuilder,
                  html: { class: 'js-SubmitOnce', autocomplete: 'off' }) do |f| %>
       <%= render('hidden_prisoner_step') %>
       <% if reviewing? %>
         <%= render('hidden_slots_step') %>
       <% end %>
 
-      <h2>
+      <h2 class="heading-medium">
         <%= t('.your_details') %>
       </h2>
 
@@ -26,7 +27,7 @@
         <%= render('principal_visitor', f: f) %>
 
         <div id="other-visitors">
-          <h2><%= t('.other_visitors') %></h2>
+          <h2 class="heading-medium"><%= t('.other_visitors') %></h2>
 
           <p>
             <%= t('.seating_arrangements', adult_age: f.object.adult_age) %>
