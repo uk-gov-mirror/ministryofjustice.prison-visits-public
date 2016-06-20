@@ -75,9 +75,15 @@ module PrisonVisits
       Visit.new(response.fetch('visit'))
     end
 
-    def get_visit(id)
-      response = @client.get("visits/#{id}")
-      Visit.new(response.fetch('visit'))
+    def get_visit(id, allow_not_found: false)
+      response = @client.get("visits/#{id}",
+        allow_not_found: allow_not_found)
+
+      if allow_not_found && !response.key?('visit')
+        nil
+      else
+        Visit.new(response.fetch('visit'))
+      end
     end
 
     def cancel_visit(id)

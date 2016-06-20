@@ -217,6 +217,12 @@ RSpec.describe PrisonVisits::Api do
     end
   end
 
+  describe 'get_visit not found', vcr: { cassette_name: 'get_visit_not_found' } do
+    subject { super().get_visit('invalid_id', allow_not_found: true) }
+
+    it { is_expected.to be_nil }
+  end
+
   describe 'cancel_visit', vcr: { cassette_name: 'cancel_visit' } do
     subject { super().cancel_visit(visit_id) }
 

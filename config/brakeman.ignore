@@ -3,6 +3,25 @@
     {
       "warning_type": "Dynamic Render Path",
       "warning_code": 15,
+      "fingerprint": "ab10eef6937b4725211a199f51f31ad035dad74feac75d064058a5291b32a228",
+      "message": "Render path contains parameter value",
+      "file": "app/controllers/visits_controller.rb",
+      "line": 7,
+      "link": "http://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => PrisonVisits::Api.instance.get_visit(params[:id], :allow_not_found => true).processing_state.to_s, {})",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "VisitsController",
+        "method": "show"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
       "fingerprint": "2cfcec33a7914a0b4681b677144c19afe8aced6c9c52a33411833ed445bc93c3",
       "message": "Render path contains parameter value",
       "file": "app/controllers/visits_controller.rb",
@@ -20,6 +39,6 @@
       "note": "The processing_state is validated against an array, so it's safe."
     }
   ],
-  "updated": "2016-06-01 18:29:50 +0100",
+  "updated": "2016-06-20 14:20:40 +0100",
   "brakeman_version": "3.1.3"
 }

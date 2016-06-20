@@ -19,16 +19,28 @@ module PrisonVisits
       )
     end
 
-    def get(route, params: {}, idempotent: true)
-      request(:get, route, params: params, idempotent: idempotent)
+    def get(route, params: {}, idempotent: true, allow_not_found: false)
+      request(:get,
+        route,
+        params: params,
+        idempotent: idempotent,
+        allow_not_found: allow_not_found)
     end
 
     def post(route, params:, idempotent: false)
-      request(:post, route, params: params, idempotent: idempotent)
+      request(:post,
+        route,
+        params: params,
+        idempotent: idempotent,
+        allow_not_found: false)
     end
 
     def delete(route, params: {}, idempotent: true)
-      request(:delete, route, params: params, idempotent: idempotent)
+      request(:delete,
+        route,
+        params: params,
+        idempotent: idempotent,
+        allow_not_found: false)
     end
 
     def healthcheck
@@ -39,7 +51,7 @@ module PrisonVisits
 
     # rubocop:disable Metrics/MethodLength
     # rubocop:disable Metrics/AbcSize
-    def request(method, route, params:, idempotent:)
+    def request(method, route, params:, idempotent:, allow_not_found:)
       # For cleanliness, strip initial / if supplied
       route = route.sub(%r{^\/}, '')
       path = "/api/#{route}"
@@ -48,7 +60,7 @@ module PrisonVisits
       options = {
         method: method,
         path: path,
-        expects: [200],
+        expects: expected_response_status(allow_not_found: allow_not_found),
         headers: {
           'Accept' => 'application/json',
           'Accept-Language' => I18n.locale,
@@ -82,6 +94,14 @@ module PrisonVisits
     end
     # rubocop:enable Metrics/MethodLength
     # rubocop:enable Metrics/AbcSize
+
+    def expected_response_status(allow_not_found:)
+      if allow_not_found
+        [200, 404]
+      else
+        [200]
+      end
+    end
 
     # Returns excon options which put params in either the query string or body.
     def params_options(method, params)
