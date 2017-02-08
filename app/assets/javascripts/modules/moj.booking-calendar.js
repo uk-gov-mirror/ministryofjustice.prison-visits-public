@@ -937,6 +937,10 @@
       return time;
     },
 
+    /**
+     * Create a date object which works for IE8
+     * @param  {string}
+     */
     makeDateObj: function(date) {
       var dateArr = date.split('-');
       return new Date(dateArr[0], parseInt(dateArr[1]) - 1, dateArr[2]);
