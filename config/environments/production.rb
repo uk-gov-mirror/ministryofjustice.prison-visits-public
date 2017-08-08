@@ -10,11 +10,17 @@ Rails.application.configure do
   config.log_level = :info
   config.i18n.fallbacks = true
   config.active_support.deprecation = :notify
-  config.log_formatter = ::Logger::Formatter.new
 
-  config.lograge.formatter = Lograge::Formatters::Logstash.new
-  config.lograge.logger = ActiveSupport::Logger.new \
-    "#{Rails.root}/log/logstash_#{Rails.env}.json"
+  if ENV.keys.include?('HEROKU_DYNO_ID')
+    config.logger = Logger.new(STDOUT)
+    config.log_level = :info
+  else
+    config.log_formatter = ::Logger::Formatter.new
+
+    config.lograge.formatter = Lograge::Formatters::Logstash.new
+    config.lograge.logger = ActiveSupport::Logger.new \
+      "#{Rails.root}/log/logstash_#{Rails.env}.json"
+  end
 
   config.mx_checker = MxChecker.new
   config.staff_url = ENV.fetch('STAFF_SERVICE_URL')
