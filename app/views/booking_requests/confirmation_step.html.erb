@@ -54,6 +54,7 @@
   <tbody>
     <tr>
       <td>
+        <% puts slots_step.slots.inspect %>
         <% slots_step.slots.each.with_index do |slot,i| %>
           <%= form_for(confirmation_step,
                        url: booking_requests_path,
