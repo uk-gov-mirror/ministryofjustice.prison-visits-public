@@ -25,6 +25,10 @@ class ErrorsController < ApplicationController
       format: :html
   end
 
+  def not_found
+    render '404', status: 404, format: :html
+  end
+
   def test
     fail 'This is an test exception'
   end

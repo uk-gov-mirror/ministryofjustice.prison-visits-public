@@ -22,4 +22,11 @@ RSpec.describe ErrorsController do
       post :test
     }.to raise_exception('This is an test exception')
   end
+
+  describe '#not_found' do
+    it 'returns a 404'do
+      get 'random/path'
+      expect(response.status).to eq(404)
+    end
+  end
 end

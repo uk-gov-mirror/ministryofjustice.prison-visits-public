@@ -53,4 +53,6 @@ Rails.application.routes.draw do
       "#{Rails.configuration.staff_url}#{request.fullpath}"
     }
   end
+
+  match '*any', to: 'errors#not_found', via: [:get, :post]
 end
