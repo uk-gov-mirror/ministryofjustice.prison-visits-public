@@ -32,7 +32,7 @@ module PrisonVisits
 
     def healthcheck
       @connection.head(
-        path: 'healthcheck',
+        path: 'healthcheck'.freeze,
         persistent: false
       )
     end
@@ -50,9 +50,9 @@ module PrisonVisits
         path: path,
         expects: [200],
         headers: {
-          'Accept' => 'application/json',
-          'Accept-Language' => I18n.locale,
-          'X-Request-Id' => RequestStore.store[:request_id]
+          'Accept'.freeze => 'application/json',
+          'Accept-Language'.freeze => I18n.locale,
+          'X-Request-Id'.freeze => RequestStore.store[:request_id]
         },
         idempotent: idempotent
       }.deep_merge(params_options(method, params))

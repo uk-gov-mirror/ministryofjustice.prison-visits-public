@@ -2,68 +2,77 @@ module PrisonVisits
   # rubocop:disable Naming/AccessorMethodName
   # (in the context of a HTTP API, get_prisons is not bad style)
   class Api
-    class << self
-      def instance
-        @instance ||= begin
-          client = PrisonVisits::Client.new(Rails.configuration.api_host)
-          new(client)
-        end
+    include Singleton
+
+    def initialize
+      self.pool = ConnectionPool.new(pool_size: 16, timeout: 1) do
+        PrisonVisits::Client.new(Rails.configuration.api_host)
       end
     end
 
-    def initialize(api_client)
-      @client = api_client
-    end
-
     def healthy?
-      @client.healthcheck.status == 200
+      pool.with { |client|
+        client.healthcheck.status == 200
+      }
     end
 
     def get_prisons
-      result = @client.get('/prisons')
+      result = pool.with { |client|
+        client.get('/prisons')
+      }
+
       result['prisons'].map { |params| Prison.new(params) }
     end
 
     def get_prison(prison_id)
-      result = @client.get("/prisons/#{prison_id}")
+      result = pool.with { |client|
+        client.get("/prisons/#{prison_id}")
+      }
+
       Prison.new(result['prison'])
     end
 
     def validate_prisoner(number:, date_of_birth:)
-      result = @client.post(
-        '/validations/prisoner',
-        params: {
-          number: number,
-          date_of_birth: date_of_birth
-        },
-        idempotent: true
-      )
+      result = pool.with { |client|
+        client.post(
+          '/validations/prisoner',
+          params: {
+            number: number,
+            date_of_birth: date_of_birth
+          },
+          idempotent: true
+        )
+      }
       result.fetch('validation')
     end
 
     def validate_visitors(prison_id:, lead_date_of_birth:, dates_of_birth:)
-      result = @client.post(
-        '/validations/visitors',
-        params: {
-          prison_id: prison_id,
-          lead_date_of_birth: lead_date_of_birth,
-          dates_of_birth: dates_of_birth
-        },
-        idempotent: true
-      )
+      result = pool.with { |client|
+        client.post(
+          '/validations/visitors',
+          params: {
+            prison_id: prison_id,
+            lead_date_of_birth: lead_date_of_birth,
+            dates_of_birth: dates_of_birth
+          },
+          idempotent: true
+        )
+      }
 
       result.fetch('validation')
     end
 
     def get_slots(prison_id:, prisoner_number:, prisoner_dob:)
-      response = @client.get(
-        '/slots',
-        params: {
-          prison_id: prison_id, prisoner_number: prisoner_number,
-          prisoner_dob: prisoner_dob,
-          start_date: Time.zone.today.to_date, end_date: 28.days.from_now.to_date
-        }
-      )
+      response = pool.with { |client|
+        client.get(
+          '/slots',
+          params: {
+            prison_id: prison_id, prisoner_number: prisoner_number,
+            prisoner_dob: prisoner_dob,
+            start_date: Time.zone.today.to_date, end_date: 28.days.from_now.to_date
+          }
+        )
+      }
       response['slots'].map do |raw_slot|
         CalendarSlot.new(
           slot: ConcreteSlot.parse(raw_slot.first),
@@ -73,17 +82,23 @@ module PrisonVisits
     end
 
     def request_visit(params)
-      response = @client.post('/visits', params: params)
+      response = pool.with { |client|
+        client.post('/visits', params: params)
+      }
       Visit.new(response.fetch('visit'))
     end
 
     def get_visit(id)
-      response = @client.get("visits/#{id}")
+      response = pool.with { |client|
+        client.get("visits/#{id}")
+      }
       Visit.new(response.fetch('visit'))
     end
 
     def cancel_visit(id)
-      response = @client.delete("visits/#{id}")
+      response = pool.with { |client|
+        client.delete("visits/#{id}")
+      }
       Visit.new(response.fetch('visit'))
     end
 
@@ -100,9 +115,15 @@ module PrisonVisits
         }
       }
 
-      @client.post('/feedback', params: params)
+      pool.with { |client|
+        client.post('/feedback', params: params)
+      }
       nil
     end
+
+  private
+
+    attr_accessor :pool
   end
   # rubocop:enable Naming/AccessorMethodName
 end

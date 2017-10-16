@@ -17,5 +17,5 @@ Rails.application.configure do
     "#{Rails.root}/log/logstash_#{Rails.env}.json"
 
   config.mx_checker = MxChecker.new
-  config.staff_url = ENV.fetch('STAFF_SERVICE_URL')
+  config.staff_url = 'http://localhost:3000'
 end

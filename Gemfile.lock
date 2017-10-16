@@ -75,6 +75,7 @@ GEM
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     concurrent-ruby (1.0.5)
+    connection_pool (2.2.1)
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     crass (1.0.2)
@@ -89,6 +90,7 @@ GEM
     faraday (0.13.1)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.18)
+    flamegraph (0.9.5)
     fuubar (2.2.0)
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
@@ -139,6 +141,7 @@ GEM
       systemu (~> 2.6.2)
     mail (2.6.6)
       mime-types (>= 1.16, < 4)
+    memory_profiler (0.9.8)
     method_source (0.8.2)
     mime-types (3.1)
       mime-types-data (~> 3.2015)
@@ -168,6 +171,8 @@ GEM
     public_suffix (3.0.0)
     puma (3.9.1)
     rack (2.0.3)
+    rack-mini-profiler (0.10.5)
+      rack (>= 1.2.0)
     rack-test (0.7.0)
       rack (>= 1.0, < 3)
     rails (5.1.4)
@@ -268,6 +273,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    stackprof (0.2.10)
     string-scrub (0.0.5)
     string_scrubber (0.3.0)
       string-scrub (~> 0.0.5)
@@ -316,7 +322,9 @@ DEPENDENCIES
   byebug
   capybara
   capybara-screenshot
+  connection_pool
   excon
+  flamegraph
   fuubar
   govuk_elements_rails
   govuk_frontend_toolkit
@@ -330,11 +338,13 @@ DEPENDENCIES
   launchy
   lograge
   logstash-event
+  memory_profiler
   phonelib
   pry-byebug
   pry-rails
   puma (= 3.9.1)
   pvb-instrumentation!
+  rack-mini-profiler
   rails (~> 5.1)
   rails-controller-testing
   rake
@@ -349,6 +359,7 @@ DEPENDENCIES
   shoulda-matchers
   simplecov
   simplecov-rcov
+  stackprof
   string_scrubber
   uglifier (~> 2.7.2)
   uri_template
@@ -362,4 +373,4 @@ RUBY VERSION
    ruby 2.4.2p198
 
 BUNDLED WITH
-   1.16.0.pre.2
+   1.16.0.pre.3

@@ -3,6 +3,7 @@ ruby '2.4.2'
 
 gem 'rails', '~> 5.1'
 
+gem 'connection_pool'
 gem 'excon'
 gem 'high_voltage'
 gem 'kramdown'
@@ -35,6 +36,11 @@ gem 'uri_template'
 gem 'virtus'
 gem 'zendesk_api'
 gem 'secure_headers'
+
+gem 'rack-mini-profiler', require: false
+gem 'memory_profiler'
+gem 'flamegraph'
+gem 'stackprof'
 
 group :development, :test do
   gem 'brakeman'

@@ -3,7 +3,7 @@ SecureHeaders::Configuration.default do |config|
     default_src: ["'self'"],
     font_src: ["'self'", 'data:'],
     img_src: ["'self'", 'data:', 'www.google-analytics.com'],
-    style_src: ["'self'"],
+    style_src: ["'self'", "'unsafe-inline'"],
     script_src: [
       "'self'",
       'www.google-analytics.com',
@@ -20,7 +20,7 @@ SecureHeaders::Configuration.default do |config|
 
   if sentry_js_dsn.present?
     if sentry_js_dsn.match?(URI.regexp(%w[http https]))
-      config.csp[:connect_src] = [URI.parse(sentry_js_dsn).host]
+      config.csp[:connect_src] = [URI.parse(sentry_js_dsn).host, "'self'"]
     else
       raise '[FATAL] Sentry JS DSN (SENTRY_JS_DSN) is an invalid URI ' \
             '(we were expecting a valid URI with an http or https scheme): ' +

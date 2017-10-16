@@ -6,10 +6,15 @@ class ApplicationController < ActionController::Base
   before_action :do_not_cache
   before_action :set_locale
   before_action :store_request_id
+  before_action :profiler
 
   helper LinksHelper
 
 private
+
+  def profiler
+    Rack::MiniProfiler.authorize_request
+  end
 
   def http_referrer
     request.headers['REFERER']
