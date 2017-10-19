@@ -6,11 +6,11 @@ class PrisonerStep
 
   attribute :processor, StepsProcessor
 
-  attribute :first_name, String
-  attribute :last_name, String
-  attribute :date_of_birth, MaybeDate
-  attribute :number, String
-  attribute :prison_id, Integer
+  attribute :first_name, String, default: nil
+  attribute :last_name, String, default: nil
+  attribute :date_of_birth, MaybeDate, default: nil
+  attribute :number, String, default: nil
+  attribute :prison_id, Integer, default: nil
 
   validates :number, prisoner_number: true
   validates :prison_id, presence: true

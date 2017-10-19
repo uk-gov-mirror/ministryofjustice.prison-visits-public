@@ -4,13 +4,13 @@ require 'email_address_validation'
 class FeedbackSubmission
   include NonPersistedModel
 
-  attribute :body, String
-  attribute :prisoner_number, String
-  attribute :prisoner_date_of_birth, MaybeDate
-  attribute :prison_id, String
-  attribute :email_address, String
-  attribute :referrer, String
-  attribute :user_agent, String
+  attribute :body, String, default: nil
+  attribute :prisoner_number, String, default: nil
+  attribute :prisoner_date_of_birth, MaybeDate, default: nil
+  attribute :prison_id, String, default: nil
+  attribute :email_address, String, default: nil
+  attribute :referrer, String, default: nil
+  attribute :user_agent, String, default: nil
 
   validates :body, presence: true
   validates :prisoner_date_of_birth, allow_blank: true, age: true

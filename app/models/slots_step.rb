@@ -3,15 +3,15 @@ class SlotsStep
 
   attribute :processor, StepsProcessor
 
-  attribute :review_slot, String
-  attribute :currently_filling, String
+  attribute :review_slot, String, default: nil
+  attribute :currently_filling, String, default: nil
   attribute :skip_remaining_slots, Boolean, coercer: lambda { |val|
     val == 'true'
   }
 
-  attribute :option_0, String
-  attribute :option_1, String
-  attribute :option_2, String
+  attribute :option_0, String, default: nil
+  attribute :option_1, String, default: nil
+  attribute :option_2, String, default: nil
 
   before_validation :reorder_options
 

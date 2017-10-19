@@ -11,16 +11,16 @@ class VisitorsStep
     include NonPersistedModel
     include Person
 
-    attribute :first_name, String
-    attribute :last_name, String
-    attribute :date_of_birth, MaybeDate
+    attribute :first_name, String, default: nil
+    attribute :last_name, String, default: nil
+    attribute :date_of_birth, MaybeDate, default: nil
   end
 
   attribute :processor, StepsProcessor
 
-  attribute :email_address, String
-  attribute :phone_no, String
-  attribute :visitors, Array[Visitor]
+  attribute :email_address, String, default: nil
+  attribute :phone_no, String, default: nil
+  attribute :visitors, Array[Visitor], default: nil
 
   delegate :max_visitors, :adult_age, to: :visitor_constraints
 

@@ -1,7 +1,7 @@
 class ConfirmationStep
   include NonPersistedModel
 
-  attribute :confirmed, Boolean
+  attribute :confirmed, Boolean, default: nil
   validates :confirmed, inclusion: { in: [true] }
 
   def options_available?
