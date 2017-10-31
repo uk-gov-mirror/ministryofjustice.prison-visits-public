@@ -4,7 +4,9 @@ ruby '2.4.2'
 gem 'rails', '~> 5.1'
 
 gem 'connection_pool'
-gem 'excon'
+gem 'excon',
+  git: 'https://github.com/alan/excon',
+  branch: 'tcp-keep-alive'
 gem 'high_voltage'
 gem 'kramdown'
 gem 'lograge'

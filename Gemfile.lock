@@ -1,4 +1,11 @@
 GIT
+  remote: https://github.com/alan/excon
+  revision: 0dcc698c6ecbb162637a0985ba47720b7cf248f0
+  branch: tcp-keep-alive
+  specs:
+    excon (0.59.0)
+
+GIT
   remote: https://github.com/ministryofjustice/email_address_validation
   revision: 6ba244a046b37bed02dca25271849513b200f056
   ref: 6ba244a046b37bed02dca25271849513b200f056
@@ -95,7 +102,6 @@ GEM
     docile (1.1.5)
     equalizer (0.0.11)
     erubi (1.7.0)
-    excon (0.59.0)
     execjs (2.7.0)
     faraday (0.13.1)
       multipart-post (>= 1.2, < 3)
@@ -323,7 +329,7 @@ DEPENDENCIES
   capybara-screenshot
   connection_pool
   email_address_validation!
-  excon
+  excon!
   fuubar
   gc_tracer
   govuk_elements_rails
