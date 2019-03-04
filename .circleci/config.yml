@@ -249,12 +249,12 @@ workflows:
         - test
         - security-static-analysis
         - rubocop
-        filters:
-          branches:
-            only: master
+#        filters:
+#          branches:
+#            only: master
     - deploy_staging:
         requires:
         - build_and_push_docker_image
-        filters:
-          branches:
-            only: master
+#        filters:
+#          branches:
+#            only: master
